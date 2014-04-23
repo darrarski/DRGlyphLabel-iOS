@@ -20,6 +20,7 @@
 @property (nonatomic, assign) CGFloat lineHeight;
 @property (nonatomic, strong) NSDictionary *pages;
 @property (nonatomic, strong) NSDictionary *characters;
+@property (nonatomic, strong) NSDictionary *kernings;
 
 @end
 
@@ -69,6 +70,7 @@
     self.lineHeight = 0.f;
     self.pages = @{};
     self.characters = @{};
+    self.kernings = @{};
     
     NSError *error = nil;
     NSString *fontDescription = [NSString stringWithContentsOfFile:self.fontFilePath
@@ -109,6 +111,21 @@
                 NSMutableDictionary *characters = [self.characters mutableCopy];
                 characters[character.charIdString] = character;
                 self.characters = [NSDictionary dictionaryWithDictionary:characters];
+            }
+        }
+        // character kernings
+        else if ([line hasPrefix:@"kerning "]) {
+            NSString *firstCharIdString = [self valueOfProperty:@"first" fromLine:line];
+            NSString *secondCharIdString = [self valueOfProperty:@"second" fromLine:line];
+            CGFloat value = [[self valueOfProperty:@"amount" fromLine:line] floatValue];
+            if ([firstCharIdString isKindOfClass:[NSString class]]
+                && ![firstCharIdString isEqualToString:@""]
+                && secondCharIdString
+                && ![secondCharIdString isEqualToString:@""]
+                && value) {
+                NSMutableDictionary *kernings = [self.kernings mutableCopy];
+                kernings[[NSString stringWithFormat:@"%@/%@", firstCharIdString, secondCharIdString]] = @(value);
+                self.kernings = [NSDictionary dictionaryWithDictionary:kernings];
             }
         }
     }];
