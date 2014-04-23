@@ -10,6 +10,7 @@
 
 @interface DRGlyphFontChar : NSObject
 
+@property (nonatomic, strong) NSString *charIdString;
 @property (nonatomic, strong) NSString *filename;
 @property (nonatomic, assign) CGFloat width;
 @property (nonatomic, assign) CGFloat height;

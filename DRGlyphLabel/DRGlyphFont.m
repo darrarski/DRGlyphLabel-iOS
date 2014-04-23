@@ -13,10 +13,9 @@
 
 @property (nonatomic, strong) NSString *fontFilename;
 @property (nonatomic, readonly) NSString *fontFilePath;
-@property (nonatomic, strong) NSString *fontDescription;
+@property (nonatomic, assign) CGFloat lineHeight;
 @property (nonatomic, strong) NSDictionary *pages;
 @property (nonatomic, strong) NSDictionary *characters;
-@property (nonatomic, assign) NSInteger lineHeight;
 
 @end
 
@@ -26,6 +25,7 @@
 {
 	if (self = [super init]) {
 		_fontFilename = name;
+        [self loadDataFromFontFile];
 	}
 	return self;
 }
@@ -54,85 +54,77 @@
 	return [[NSBundle mainBundle] pathForResource:filename ofType:@"fnt"];
 }
 
-- (NSString *)fontDescription
-{
-	if (!_fontDescription) {
-		NSError *error = nil;
-		_fontDescription = [NSString stringWithContentsOfFile:self.fontFilePath
-													 encoding:NSUTF8StringEncoding
-														error:&error];
-		if (error) {
-			NSLog(@"ERROR: %@", error);
-		}
-	}
-	return _fontDescription;
-}
-
-- (NSDictionary *)pages
-{
-	if (!_pages) {
-		NSMutableDictionary *pages = [NSMutableDictionary new];
-		NSArray *lines = [self.fontDescription componentsSeparatedByCharactersInSet:[NSCharacterSet newlineCharacterSet]];
-		[lines enumerateObjectsUsingBlock:^(NSString *line, NSUInteger idx, BOOL *stop) {
-			if ([line hasPrefix:@"page "]) {
-				NSString *pageId = [self valueOfProperty:@"id" fromLine:line];
-				NSString *pageFile = [self valueOfProperty:@"file" fromLine:line];
-				if (pageId && pageFile) {
-					pages[pageId] = pageFile;
-				}
-			}
-		}];
-		_pages = [NSDictionary dictionaryWithDictionary:pages];
-	}
-	return _pages;
-}
-
-- (NSDictionary *)characters
-{
-	if (!_characters) {
-		NSMutableDictionary *characters = [NSMutableDictionary new];
-		NSArray *lines = [self.fontDescription componentsSeparatedByCharactersInSet:[NSCharacterSet newlineCharacterSet]];
-		[lines enumerateObjectsUsingBlock:^(NSString *line, NSUInteger idx, BOOL *stop) {
-			if ([line hasPrefix:@"char "]) {
-				NSString *charIdString = [self valueOfProperty:@"id" fromLine:line];
-				if (charIdString) {
-					NSString *page = [self valueOfProperty:@"page" fromLine:line];
-					NSString *filename = self.pages[page];
-					if (filename) {
-						DRGlyphFontChar *character = [[DRGlyphFontChar alloc] init];
-						character.filename = filename;
-						character.width = [[self valueOfProperty:@"width" fromLine:line] floatValue];
-						character.height = [[self valueOfProperty:@"height" fromLine:line] floatValue];
-						character.posX = [[self valueOfProperty:@"x" fromLine:line] floatValue];
-						character.posY = [[self valueOfProperty:@"y" fromLine:line] floatValue];
-						character.offsetX = [[self valueOfProperty:@"xoffset" fromLine:line] floatValue];
-						character.offsetY = [[self valueOfProperty:@"yoffset" fromLine:line] floatValue];
-						character.advanceX = [[self valueOfProperty:@"xadvance" fromLine:line] floatValue];
-						characters[charIdString] = character;
-					}
-				}
-			}
-		}];
-		_characters = [NSDictionary dictionaryWithDictionary:characters];
-	}
-	return _characters;
-}
-
-- (NSInteger)lineHeight
-{
-	if (!_lineHeight) {
-		NSArray *lines = [self.fontDescription componentsSeparatedByCharactersInSet:[NSCharacterSet newlineCharacterSet]];
-		[lines enumerateObjectsUsingBlock:^(NSString *line, NSUInteger idx, BOOL *stop) {
-			if ([line hasPrefix:@"common "]) {
-				_lineHeight = [[self valueOfProperty:@"lineHeight" fromLine:line] integerValue];
-				*stop = YES;
-			}
-		}];
-	}
-	return _lineHeight;
-}
-
 #pragma mark - Parser methods
+
+- (void)loadDataFromFontFile
+{
+    self.lineHeight = 0.f;
+    self.pages = @{};
+    self.characters = @{};
+    
+    NSError *error = nil;
+    NSString *fontDescription = [NSString stringWithContentsOfFile:self.fontFilePath
+                                                          encoding:NSUTF8StringEncoding
+                                                             error:&error];
+    if (error) {
+        NSLog(@"ERROR LOADING FONT %@: %@", self.fontFilename, error.localizedDescription);
+        return;
+    }
+    
+    NSArray *lines = [fontDescription componentsSeparatedByCharactersInSet:[NSCharacterSet newlineCharacterSet]];
+    [lines enumerateObjectsUsingBlock:^(NSString *line, NSUInteger idx, BOOL *stop) {
+        // font commons
+        if ([line hasPrefix:@"common "]) {
+            self.lineHeight = [[self valueOfProperty:@"lineHeight" fromLine:line] floatValue];
+        }
+        // page description
+        if ([line hasPrefix:@"page "]) {
+            NSString *pageId = [self valueOfProperty:@"id" fromLine:line];
+            NSString *pageFile = [self valueOfProperty:@"file" fromLine:line];
+            if (pageId && pageFile) {
+                NSMutableDictionary *pages = [self.pages mutableCopy];
+                pages[pageId] = pageFile;
+                self.pages = [NSDictionary dictionaryWithDictionary:pages];
+            }
+        }
+        // character description
+        else if ([line hasPrefix:@"char "]) {
+            DRGlyphFontChar *character = [self characterFromString:line];
+            if (character) {
+                NSMutableDictionary *characters = [self.characters mutableCopy];
+                characters[character.charIdString] = character;
+                self.characters = [NSDictionary dictionaryWithDictionary:characters];
+            }
+        }
+    }];
+}
+
+- (DRGlyphFontChar *)characterFromString:(NSString *)string
+{
+    DRGlyphFontChar *character = nil;
+    
+    if ([string hasPrefix:@"char "]) {
+        NSString *charIdString = [self valueOfProperty:@"id" fromLine:string];
+        if (charIdString) {
+            NSString *page = [self valueOfProperty:@"page" fromLine:string];
+            NSString *filename = self.pages[page];
+            if (filename) {
+                character = [[DRGlyphFontChar alloc] init];
+                character.charIdString = charIdString;
+                character.filename = filename;
+                character.width = [[self valueOfProperty:@"width" fromLine:string] floatValue];
+                character.height = [[self valueOfProperty:@"height" fromLine:string] floatValue];
+                character.posX = [[self valueOfProperty:@"x" fromLine:string] floatValue];
+                character.posY = [[self valueOfProperty:@"y" fromLine:string] floatValue];
+                character.offsetX = [[self valueOfProperty:@"xoffset" fromLine:string] floatValue];
+                character.offsetY = [[self valueOfProperty:@"yoffset" fromLine:string] floatValue];
+                character.advanceX = [[self valueOfProperty:@"xadvance" fromLine:string] floatValue];
+            }
+        }
+    }
+    
+    return character;
+}
 
 - (NSString *)valueOfProperty:(NSString *)key fromLine:(NSString *)line
 {

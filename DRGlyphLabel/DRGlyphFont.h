@@ -12,8 +12,7 @@
 
 @interface DRGlyphFont : NSObject
 
-@property (nonatomic, readonly) NSInteger lineHeight;
-@property (nonatomic, readonly) NSDictionary *characters;
+@property (nonatomic, readonly) CGFloat lineHeight;
 
 - (id)initWithName:(NSString *)name;
 - (DRGlyphFontChar *)character:(unichar)charId;
