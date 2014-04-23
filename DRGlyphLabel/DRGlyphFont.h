@@ -12,7 +12,12 @@
 
 @interface DRGlyphFont : NSObject
 
+@property (nonatomic, readonly) NSString *face;
+@property (nonatomic, readonly) CGFloat size;
+@property (nonatomic, readonly, getter = isBold) BOOL bold;
+@property (nonatomic, readonly, getter = isItalic) BOOL italic;
 @property (nonatomic, readonly) CGFloat lineHeight;
+
 
 - (id)initWithName:(NSString *)name;
 - (DRGlyphFontChar *)character:(unichar)charId;

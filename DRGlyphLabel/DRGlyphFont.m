@@ -13,6 +13,10 @@
 
 @property (nonatomic, strong) NSString *fontFilename;
 @property (nonatomic, readonly) NSString *fontFilePath;
+@property (nonatomic, strong) NSString *face;
+@property (nonatomic, assign) CGFloat size;
+@property (nonatomic, assign) BOOL bold;
+@property (nonatomic, assign) BOOL italic;
 @property (nonatomic, assign) CGFloat lineHeight;
 @property (nonatomic, strong) NSDictionary *pages;
 @property (nonatomic, strong) NSDictionary *characters;
@@ -58,6 +62,10 @@
 
 - (void)loadDataFromFontFile
 {
+    self.face = nil;
+    self.size = 0.f;
+    self.bold = NO;
+    self.italic = NO;
     self.lineHeight = 0.f;
     self.pages = @{};
     self.characters = @{};
@@ -73,8 +81,15 @@
     
     NSArray *lines = [fontDescription componentsSeparatedByCharactersInSet:[NSCharacterSet newlineCharacterSet]];
     [lines enumerateObjectsUsingBlock:^(NSString *line, NSUInteger idx, BOOL *stop) {
+        // font info
+        if ([line hasPrefix:@"info "]) {
+            self.face = [self valueOfProperty:@"face" fromLine:line];
+            self.size = [[self valueOfProperty:@"size" fromLine:line] floatValue];
+            self.bold = [[self valueOfProperty:@"bold" fromLine:line] boolValue];
+            self.italic = [[self valueOfProperty:@"italic" fromLine:line] boolValue];
+        }
         // font commons
-        if ([line hasPrefix:@"common "]) {
+        else if ([line hasPrefix:@"common "]) {
             self.lineHeight = [[self valueOfProperty:@"lineHeight" fromLine:line] floatValue];
         }
         // page description
