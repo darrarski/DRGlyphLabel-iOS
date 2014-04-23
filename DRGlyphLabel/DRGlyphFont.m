@@ -68,6 +68,11 @@
     return [NSString stringWithString:description];
 }
 
+- (CGFloat)kerningBetween:(unichar)firstCharId and:(unichar)secondCharId
+{
+    return [self.kernings[[NSString stringWithFormat:@"%i/%i", (int)firstCharId, (int)secondCharId]] floatValue];
+}
+
 #pragma mark - Helper methods
 
 + (BOOL)isRunningOnRetinaDevice

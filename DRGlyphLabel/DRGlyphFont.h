@@ -21,5 +21,6 @@
 
 - (id)initWithName:(NSString *)name;
 - (DRGlyphFontChar *)character:(unichar)charId;
+- (CGFloat)kerningBetween:(unichar)firstCharId and:(unichar)secondCharId;
 
 @end
