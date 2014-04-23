@@ -61,12 +61,17 @@
         } else {
 			NSString *charId = [NSString stringWithFormat:@"%i", (int)c];
 			NSDictionary *character = self.font.characters[charId];
-			UIImageView *letterImageView = [[UIImageView alloc] init];
-			letterImageView.image = [self.font imageForCharacterWithId:charId];
-			letterImageView.frame = CGRectMake(pos.x / scaleFactor,
-											   pos.y / scaleFactor,
-											   letterImageView.image.size.width / scaleFactor,
-											   letterImageView.image.size.height / scaleFactor);
+			UIImage *charImage = [self.font imageForCharacterWithId:charId];
+			CGFloat charWidth = [character[DRGlyphFontCharacterWidth] floatValue];
+			CGFloat charHeight = [character[DRGlyphFontCharacterHeight] floatValue];
+			CGFloat charOffsetX = [character[DRGlyphFontCharacterOffsetX] floatValue];
+			CGFloat charOffsetY = [character[DRGlyphFontCharacterOffsetY] floatValue];
+			
+			UIImageView *letterImageView = [[UIImageView alloc] initWithImage:charImage];
+			letterImageView.frame = CGRectMake((pos.x + charOffsetX) / scaleFactor,
+											   (pos.y + charOffsetY) / scaleFactor,
+											   charWidth / scaleFactor,
+											   charHeight / scaleFactor);
 			[self addSubview:letterImageView];
 			
             pos.x += [character[DRGlyphFontCharacterAdvanceX] integerValue];
