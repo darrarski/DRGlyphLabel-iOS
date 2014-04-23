@@ -47,12 +47,10 @@ NSString * const DRGlyphFontCharacterAdvanceX = @"DRGlyphFontCharacterAdvanceX";
 	}
 	
 	UIImage *pageImage = [UIImage imageNamed:character[DRGlyphFontCharacterFile]];
-	
-	CGRect rect = CGRectMake([character[DRGlyphFontCharacterPositionX] integerValue] * pageImage.scale,
-							 [character[DRGlyphFontCharacterPositionY] integerValue] * pageImage.scale,
-							 [character[DRGlyphFontCharacterWidth] integerValue] * pageImage.scale,
-							 [character[DRGlyphFontCharacterHeight] integerValue] * pageImage.scale);
-	
+	CGRect rect = CGRectMake([character[DRGlyphFontCharacterPositionX] integerValue],
+							 [character[DRGlyphFontCharacterPositionY] integerValue],
+							 [character[DRGlyphFontCharacterWidth] integerValue],
+							 [character[DRGlyphFontCharacterHeight] integerValue]);
     CGImageRef pageImageRef = CGImageCreateWithImageInRect([pageImage CGImage], rect);
     UIImage *characterImage = [UIImage imageWithCGImage:pageImageRef
 												  scale:pageImage.scale
