@@ -40,6 +40,34 @@
 	return self.characters[[NSString stringWithFormat:@"%i", (int)charId]];
 }
 
+- (NSString *)description
+{
+    NSMutableString *description = [[NSString stringWithFormat:@"%@\n", NSStringFromClass([self class])] mutableCopy];
+    [description appendString:[NSString stringWithFormat:@"Face: %@\n", self.face]];
+    [description appendString:[NSString stringWithFormat:@"Size: %0.1f\n", self.size]];
+    [description appendString:[NSString stringWithFormat:@"Bold: %@\n", self.bold ? @"YES" : @"NO"]];
+    [description appendString:[NSString stringWithFormat:@"Italic: %@\n", self.italic ? @"YES" : @"NO"]];
+    [description appendString:[NSString stringWithFormat:@"Line height: %0.1f\n", self.lineHeight]];
+    [description appendString:[NSString stringWithFormat:@"Pages: %@\n", [[self.pages allValues] componentsJoinedByString:@", "]]];
+    NSMutableArray *characters = [NSMutableArray new];
+    [[self.characters allKeys] enumerateObjectsUsingBlock:^(NSString *charIdString, NSUInteger idx, BOOL *stop) {
+        [characters addObject:[NSString stringWithFormat:@"%c", [charIdString intValue]]];
+    }];
+    [description appendString:[NSString stringWithFormat:@"Characters: %@\n", [characters componentsJoinedByString:@", "]]];
+    NSMutableArray *kernings = [NSMutableArray new];
+    [self.kernings enumerateKeysAndObjectsUsingBlock:^(NSString *key, id obj, BOOL *stop) {
+        NSArray *charIdStrings = [key componentsSeparatedByString:@"/"];
+        NSString *firstCharIdString = [charIdStrings firstObject];
+        NSString *secondCharIdString = [charIdStrings lastObject];
+        [kernings addObject:[NSString stringWithFormat:@"(%@%@):%0.1f",
+                             [NSString stringWithFormat:@"%c", [firstCharIdString intValue]],
+                             [NSString stringWithFormat:@"%c", [secondCharIdString intValue]],
+                             [obj floatValue]]];
+    }];
+    [description appendString:[NSString stringWithFormat:@"Kernings: %@", [kernings componentsJoinedByString:@", "]]];
+    return [NSString stringWithString:description];
+}
+
 #pragma mark - Helper methods
 
 + (BOOL)isRunningOnRetinaDevice
