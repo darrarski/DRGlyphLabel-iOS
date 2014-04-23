@@ -9,6 +9,7 @@
 #import "DRViewController.h"
 #import "DRGlyphFont.h"
 #import "DRGlyphLabel.h"
+#import "CALayer+MBAnimationPersistence.h"
 
 @interface DRViewController ()
 
@@ -29,6 +30,7 @@
 	self.label.backgroundColor = [UIColor colorWithRed:1.000 green:1.000 blue:0.000 alpha:0.300];
 	[self.view addSubview:self.label];
 	[self updateCounterLabel];
+    [self addSpinAnimationToView:self.label duration:.5f rotations:1.f repeat:HUGE_VALF];
 	
 	self.timer = [NSTimer scheduledTimerWithTimeInterval:0.1f
                                                   target:self
@@ -48,6 +50,29 @@
 	self.label.text = [NSString stringWithFormat:@"%d", self.counter];
 	[self.label sizeToFit];
 	self.label.center = self.view.center;
+}
+
+#pragma mark - Animations
+
+NSString * const DRSpinAnimationKey = @"DRSpinAnimationKey";
+
+- (void)addSpinAnimationToView:(UIView*)view duration:(CGFloat)duration rotations:(CGFloat)rotations repeat:(float)repeat;
+{
+    CABasicAnimation* rotationAnimation;
+    rotationAnimation = [CABasicAnimation animationWithKeyPath:@"transform.rotation.z"];
+    rotationAnimation.toValue = [NSNumber numberWithFloat: M_PI * 2.0 * rotations * duration ];
+    rotationAnimation.duration = duration;
+    rotationAnimation.cumulative = YES;
+    rotationAnimation.repeatCount = repeat;
+    
+    [view.layer addAnimation:rotationAnimation forKey:DRSpinAnimationKey];
+    view.layer.MB_persistentAnimationKeys = @[ DRSpinAnimationKey ];
+}
+
+- (void)removeSpinAnimationFromView:(UIView *)view
+{
+    view.layer.MB_persistentAnimationKeys = nil;
+    [view.layer removeAnimationForKey:DRSpinAnimationKey];
 }
 
 @end
