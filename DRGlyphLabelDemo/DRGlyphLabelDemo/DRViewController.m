@@ -7,8 +7,11 @@
 //
 
 #import "DRViewController.h"
+#import "DRGlyphFont.h"
 
 @interface DRViewController ()
+
+@property (nonatomic, strong) DRGlyphFont *font;
 
 @end
 
@@ -17,13 +20,8 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-	// Do any additional setup after loading the view, typically from a nib.
-}
-
-- (void)didReceiveMemoryWarning
-{
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
+	
+	self.font = [[DRGlyphFont alloc] initWithName:@"font1"];
 }
 
 @end
