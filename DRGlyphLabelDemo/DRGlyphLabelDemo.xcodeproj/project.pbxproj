@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		31398D57190868540024BBE1 /* CALayer+MBAnimationPersistence.m in Sources */ = {isa = PBXBuildFile; fileRef = 31398D56190868540024BBE1 /* CALayer+MBAnimationPersistence.m */; };
 		3195B1271907C530008D37D9 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3195B1261907C530008D37D9 /* Foundation.framework */; };
 		3195B1291907C530008D37D9 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3195B1281907C530008D37D9 /* CoreGraphics.framework */; };
 		3195B12B1907C530008D37D9 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3195B12A1907C530008D37D9 /* UIKit.framework */; };
@@ -24,6 +25,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		31398D55190868540024BBE1 /* CALayer+MBAnimationPersistence.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "CALayer+MBAnimationPersistence.h"; sourceTree = "<group>"; };
+		31398D56190868540024BBE1 /* CALayer+MBAnimationPersistence.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "CALayer+MBAnimationPersistence.m"; sourceTree = "<group>"; };
 		3195B1231907C530008D37D9 /* DRGlyphLabelDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DRGlyphLabelDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		3195B1261907C530008D37D9 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		3195B1281907C530008D37D9 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -63,6 +66,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		31398D54190868540024BBE1 /* Cateogories */ = {
+			isa = PBXGroup;
+			children = (
+				31398D55190868540024BBE1 /* CALayer+MBAnimationPersistence.h */,
+				31398D56190868540024BBE1 /* CALayer+MBAnimationPersistence.m */,
+			);
+			path = Cateogories;
+			sourceTree = "<group>";
+		};
 		3195B11A1907C530008D37D9 = {
 			isa = PBXGroup;
 			children = (
@@ -95,6 +107,7 @@
 		3195B12C1907C530008D37D9 /* DRGlyphLabelDemo */ = {
 			isa = PBXGroup;
 			children = (
+				31398D54190868540024BBE1 /* Cateogories */,
 				3195B1351907C530008D37D9 /* DRAppDelegate.h */,
 				3195B1361907C530008D37D9 /* DRAppDelegate.m */,
 				3195B13B1907C530008D37D9 /* DRViewController.h */,
@@ -206,6 +219,7 @@
 				3195B1331907C530008D37D9 /* main.m in Sources */,
 				3195B15E1907C7A4008D37D9 /* DRGlyphLabel.m in Sources */,
 				3195B1611907CD6F008D37D9 /* DRGlyphFont.m in Sources */,
+				31398D57190868540024BBE1 /* CALayer+MBAnimationPersistence.m in Sources */,
 				3195B17119080A76008D37D9 /* DRGlyphFontChar.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
