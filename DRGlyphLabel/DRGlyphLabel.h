@@ -10,9 +10,19 @@
 
 @class DRGlyphFont;
 
+/**
+ *  DRGlyphLabel - text label with bitmap font
+ */
 @interface DRGlyphLabel : UIView
 
+/**
+ *  Font used to render text
+ */
 @property (nonatomic, strong) DRGlyphFont *font;
+
+/**
+ *  Displayed text
+ */
 @property (nonatomic, strong) NSString *text;
 
 @end
