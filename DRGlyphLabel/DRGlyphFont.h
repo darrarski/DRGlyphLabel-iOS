@@ -8,14 +8,7 @@
 
 #import <Foundation/Foundation.h>
 
-extern NSString * const DRGlyphFontCharacterFile;
-extern NSString * const DRGlyphFontCharacterPositionX;
-extern NSString * const DRGlyphFontCharacterPositionY;
-extern NSString * const DRGlyphFontCharacterWidth;
-extern NSString * const DRGlyphFontCharacterHeight;
-extern NSString * const DRGlyphFontCharacterOffsetX;
-extern NSString * const DRGlyphFontCharacterOffsetY;
-extern NSString * const DRGlyphFontCharacterAdvanceX;
+@class DRGlyphFontChar;
 
 @interface DRGlyphFont : NSObject
 
@@ -23,6 +16,6 @@ extern NSString * const DRGlyphFontCharacterAdvanceX;
 @property (nonatomic, readonly) NSDictionary *characters;
 
 - (id)initWithName:(NSString *)name;
-- (UIImage *)imageForCharacterWithId:(NSString *)charId;
+- (DRGlyphFontChar *)character:(unichar)charId;
 
 @end

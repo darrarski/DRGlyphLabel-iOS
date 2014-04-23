@@ -20,6 +20,7 @@
 		3195B1611907CD6F008D37D9 /* DRGlyphFont.m in Sources */ = {isa = PBXBuildFile; fileRef = 3195B1601907CD6F008D37D9 /* DRGlyphFont.m */; };
 		3195B1641907CDB2008D37D9 /* font1@2x.fnt in Resources */ = {isa = PBXBuildFile; fileRef = 3195B1621907CDB2008D37D9 /* font1@2x.fnt */; };
 		3195B1651907CDB2008D37D9 /* font1@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3195B1631907CDB2008D37D9 /* font1@2x.png */; };
+		3195B17119080A76008D37D9 /* DRGlyphFontChar.m in Sources */ = {isa = PBXBuildFile; fileRef = 3195B17019080A76008D37D9 /* DRGlyphFontChar.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -44,6 +45,8 @@
 		3195B1601907CD6F008D37D9 /* DRGlyphFont.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DRGlyphFont.m; sourceTree = "<group>"; };
 		3195B1621907CDB2008D37D9 /* font1@2x.fnt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "font1@2x.fnt"; sourceTree = "<group>"; };
 		3195B1631907CDB2008D37D9 /* font1@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "font1@2x.png"; sourceTree = "<group>"; };
+		3195B16F19080A76008D37D9 /* DRGlyphFontChar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DRGlyphFontChar.h; sourceTree = "<group>"; };
+		3195B17019080A76008D37D9 /* DRGlyphFontChar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DRGlyphFontChar.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -121,6 +124,8 @@
 			children = (
 				3195B15F1907CD6F008D37D9 /* DRGlyphFont.h */,
 				3195B1601907CD6F008D37D9 /* DRGlyphFont.m */,
+				3195B16F19080A76008D37D9 /* DRGlyphFontChar.h */,
+				3195B17019080A76008D37D9 /* DRGlyphFontChar.m */,
 				3195B15C1907C7A4008D37D9 /* DRGlyphLabel.h */,
 				3195B15D1907C7A4008D37D9 /* DRGlyphLabel.m */,
 			);
@@ -201,6 +206,7 @@
 				3195B1331907C530008D37D9 /* main.m in Sources */,
 				3195B15E1907C7A4008D37D9 /* DRGlyphLabel.m in Sources */,
 				3195B1611907CD6F008D37D9 /* DRGlyphFont.m in Sources */,
+				3195B17119080A76008D37D9 /* DRGlyphFontChar.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

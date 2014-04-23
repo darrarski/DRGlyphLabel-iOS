@@ -7,15 +7,7 @@
 //
 
 #import "DRGlyphFont.h"
-
-NSString * const DRGlyphFontCharacterFile = @"DRGlyphFontCharacterFile";
-NSString * const DRGlyphFontCharacterPositionX = @"DRGlyphFontCharacterPositionX";
-NSString * const DRGlyphFontCharacterPositionY = @"DRGlyphFontCharacterPositionY";
-NSString * const DRGlyphFontCharacterWidth = @"DRGlyphFontCharacterWidth";
-NSString * const DRGlyphFontCharacterHeight = @"DRGlyphFontCharacterHeight";
-NSString * const DRGlyphFontCharacterOffsetX = @"DRGlyphFontCharacterOffsetX";
-NSString * const DRGlyphFontCharacterOffsetY = @"DRGlyphFontCharacterOffsetY";
-NSString * const DRGlyphFontCharacterAdvanceX = @"DRGlyphFontCharacterAdvanceX";
+#import "DRGlyphFontChar.h"
 
 @interface DRGlyphFont ()
 
@@ -38,25 +30,9 @@ NSString * const DRGlyphFontCharacterAdvanceX = @"DRGlyphFontCharacterAdvanceX";
 	return self;
 }
 
-- (UIImage *)imageForCharacterWithId:(NSString *)charId
+- (DRGlyphFontChar *)character:(unichar)charId
 {
-	NSDictionary *character = self.characters[charId];
-	
-	if (!character) {
-		return nil;
-	}
-	
-	UIImage *pageImage = [UIImage imageNamed:character[DRGlyphFontCharacterFile]];
-	CGRect rect = CGRectMake([character[DRGlyphFontCharacterPositionX] integerValue],
-							 [character[DRGlyphFontCharacterPositionY] integerValue],
-							 [character[DRGlyphFontCharacterWidth] integerValue],
-							 [character[DRGlyphFontCharacterHeight] integerValue]);
-    CGImageRef pageImageRef = CGImageCreateWithImageInRect([pageImage CGImage], rect);
-    UIImage *characterImage = [UIImage imageWithCGImage:pageImageRef
-												  scale:pageImage.scale
-											orientation:pageImage.imageOrientation];
-    CGImageRelease(pageImageRef);
-    return characterImage;
+	return self.characters[[NSString stringWithFormat:@"%i", (int)charId]];
 }
 
 #pragma mark - Helper methods
@@ -118,20 +94,21 @@ NSString * const DRGlyphFontCharacterAdvanceX = @"DRGlyphFontCharacterAdvanceX";
 		NSArray *lines = [self.fontDescription componentsSeparatedByCharactersInSet:[NSCharacterSet newlineCharacterSet]];
 		[lines enumerateObjectsUsingBlock:^(NSString *line, NSUInteger idx, BOOL *stop) {
 			if ([line hasPrefix:@"char "]) {
-				NSString *charId = [self valueOfProperty:@"id" fromLine:line];
-				if (charId) {
+				NSString *charIdString = [self valueOfProperty:@"id" fromLine:line];
+				if (charIdString) {
 					NSString *page = [self valueOfProperty:@"page" fromLine:line];
-					NSString *file = self.pages[page];
-					if (file) {
-						characters[charId] = @{ DRGlyphFontCharacterFile: file,
-												DRGlyphFontCharacterPositionX: [self valueOfProperty:@"x" fromLine:line] ?: [NSNull null],
-												DRGlyphFontCharacterPositionY: [self valueOfProperty:@"y" fromLine:line] ?: [NSNull null],
-												DRGlyphFontCharacterWidth: [self valueOfProperty:@"width" fromLine:line] ?: [NSNull null],
-												DRGlyphFontCharacterHeight: [self valueOfProperty:@"height" fromLine:line] ?: [NSNull null],
-												DRGlyphFontCharacterOffsetX: [self valueOfProperty:@"xoffset" fromLine:line] ?: [NSNull null],
-												DRGlyphFontCharacterOffsetY: [self valueOfProperty:@"yoffset" fromLine:line] ?: [NSNull null],
-												DRGlyphFontCharacterAdvanceX: [self valueOfProperty:@"xadvance" fromLine:line] ?: [NSNull null],
-												};
+					NSString *filename = self.pages[page];
+					if (filename) {
+						DRGlyphFontChar *character = [[DRGlyphFontChar alloc] init];
+						character.filename = filename;
+						character.width = [[self valueOfProperty:@"width" fromLine:line] floatValue];
+						character.height = [[self valueOfProperty:@"height" fromLine:line] floatValue];
+						character.posX = [[self valueOfProperty:@"x" fromLine:line] floatValue];
+						character.posY = [[self valueOfProperty:@"y" fromLine:line] floatValue];
+						character.offsetX = [[self valueOfProperty:@"xoffset" fromLine:line] floatValue];
+						character.offsetY = [[self valueOfProperty:@"yoffset" fromLine:line] floatValue];
+						character.advanceX = [[self valueOfProperty:@"xadvance" fromLine:line] floatValue];
+						characters[charIdString] = character;
 					}
 				}
 			}
