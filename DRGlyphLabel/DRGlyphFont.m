@@ -188,6 +188,9 @@
 	NSRange propertyValueRange = NSMakeRange(propertyKeyRange.location + propertyKeyRange.length,
 											 propertyValueEndPosition - (propertyKeyRange.location + propertyKeyRange.length));
 	NSString *value = [line substringWithRange:propertyValueRange];
+    
+    value = [value stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
+    
 	return value;
 }
 
