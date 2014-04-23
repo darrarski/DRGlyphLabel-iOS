@@ -78,7 +78,7 @@
             self.lineHeight = [[self valueOfProperty:@"lineHeight" fromLine:line] floatValue];
         }
         // page description
-        if ([line hasPrefix:@"page "]) {
+        else if ([line hasPrefix:@"page "]) {
             NSString *pageId = [self valueOfProperty:@"id" fromLine:line];
             NSString *pageFile = [self valueOfProperty:@"file" fromLine:line];
             if (pageId && pageFile) {
