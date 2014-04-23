@@ -42,6 +42,7 @@
 
 - (void)renderText
 {
+    unichar lastCharId = 0;
 	CGSize size = CGSizeZero;
     CGPoint pos = CGPointZero;
     CGFloat scaleFactor = [UIScreen mainScreen].scale;
@@ -69,13 +70,14 @@
 											   character.width / scaleFactor,
 											   character.height / scaleFactor);
 			[self addSubview:letterImageView];
-			
-            pos.x += character.advanceX;
+            
+            pos.x += character.advanceX + [self.font kerningBetween:lastCharId and:charId];
             
             if (size.width < pos.x) {
                 size.width = pos.x / scaleFactor;
 			}
         }
+        lastCharId = charId;
     }
 	
 	self.textSize = size;
