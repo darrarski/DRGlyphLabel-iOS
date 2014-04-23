@@ -7,7 +7,8 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "DRGlyphFont.h"
+
+@class DRGlyphFont;
 
 @interface DRGlyphLabel : UIView
 
