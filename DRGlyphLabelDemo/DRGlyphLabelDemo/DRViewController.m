@@ -8,10 +8,11 @@
 
 #import "DRViewController.h"
 #import "DRGlyphFont.h"
+#import "DRGlyphLabel.h"
 
 @interface DRViewController ()
 
-@property (nonatomic, strong) DRGlyphFont *font;
+@property (nonatomic, strong) DRGlyphLabel *label;
 
 @end
 
@@ -21,7 +22,12 @@
 {
     [super viewDidLoad];
 	
-	self.font = [[DRGlyphFont alloc] initWithName:@"font1"];
+	self.label = [[DRGlyphLabel alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height)];
+	self.label.font = [[DRGlyphFont alloc] initWithName:@"font1"];
+	self.label.text = @"1234";
+	self.label.backgroundColor = [UIColor colorWithRed:0.683 green:0.902 blue:0.722 alpha:1.000];
+	
+	[self.view addSubview:self.label];
 }
 
 @end

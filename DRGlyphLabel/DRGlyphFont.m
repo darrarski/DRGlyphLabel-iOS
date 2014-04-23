@@ -8,11 +8,14 @@
 
 #import "DRGlyphFont.h"
 
-static NSString * const DRGlyphFontCharacterFile = @"DRGlyphFontCharacterFile";
-static NSString * const DRGlyphFontCharacterPositionX = @"DRGlyphFontCharacterPositionX";
-static NSString * const DRGlyphFontCharacterPositionY = @"DRGlyphFontCharacterPositionY";
-static NSString * const DRGlyphFontCharacterWidth = @"DRGlyphFontCharacterWidth";
-static NSString * const DRGlyphFontCharacterHeight = @"DRGlyphFontCharacterHeight";
+NSString * const DRGlyphFontCharacterFile = @"DRGlyphFontCharacterFile";
+NSString * const DRGlyphFontCharacterPositionX = @"DRGlyphFontCharacterPositionX";
+NSString * const DRGlyphFontCharacterPositionY = @"DRGlyphFontCharacterPositionY";
+NSString * const DRGlyphFontCharacterWidth = @"DRGlyphFontCharacterWidth";
+NSString * const DRGlyphFontCharacterHeight = @"DRGlyphFontCharacterHeight";
+NSString * const DRGlyphFontCharacterOffsetX = @"DRGlyphFontCharacterOffsetX";
+NSString * const DRGlyphFontCharacterOffsetY = @"DRGlyphFontCharacterOffsetY";
+NSString * const DRGlyphFontCharacterAdvanceX = @"DRGlyphFontCharacterAdvanceX";
 
 @interface DRGlyphFont ()
 
@@ -21,6 +24,7 @@ static NSString * const DRGlyphFontCharacterHeight = @"DRGlyphFontCharacterHeigh
 @property (nonatomic, strong) NSString *fontDescription;
 @property (nonatomic, strong) NSDictionary *pages;
 @property (nonatomic, strong) NSDictionary *characters;
+@property (nonatomic, assign) NSInteger lineHeight;
 
 @end
 
@@ -32,6 +36,29 @@ static NSString * const DRGlyphFontCharacterHeight = @"DRGlyphFontCharacterHeigh
 		_fontFilename = name;
 	}
 	return self;
+}
+
+- (UIImage *)imageForCharacterWithId:(NSString *)charId
+{
+	NSDictionary *character = self.characters[charId];
+	
+	if (!character) {
+		return nil;
+	}
+	
+	UIImage *pageImage = [UIImage imageNamed:character[DRGlyphFontCharacterFile]];
+	
+	CGRect rect = CGRectMake([character[DRGlyphFontCharacterPositionX] integerValue] * pageImage.scale,
+							 [character[DRGlyphFontCharacterPositionY] integerValue] * pageImage.scale,
+							 [character[DRGlyphFontCharacterWidth] integerValue] * pageImage.scale,
+							 [character[DRGlyphFontCharacterHeight] integerValue] * pageImage.scale);
+	
+    CGImageRef pageImageRef = CGImageCreateWithImageInRect([pageImage CGImage], rect);
+    UIImage *characterImage = [UIImage imageWithCGImage:pageImageRef
+												  scale:pageImage.scale
+											orientation:pageImage.imageOrientation];
+    CGImageRelease(pageImageRef);
+    return characterImage;
 }
 
 #pragma mark - Helper methods
@@ -103,6 +130,9 @@ static NSString * const DRGlyphFontCharacterHeight = @"DRGlyphFontCharacterHeigh
 												DRGlyphFontCharacterPositionY: [self valueOfProperty:@"y" fromLine:line] ?: [NSNull null],
 												DRGlyphFontCharacterWidth: [self valueOfProperty:@"width" fromLine:line] ?: [NSNull null],
 												DRGlyphFontCharacterHeight: [self valueOfProperty:@"height" fromLine:line] ?: [NSNull null],
+												DRGlyphFontCharacterOffsetX: [self valueOfProperty:@"xoffset" fromLine:line] ?: [NSNull null],
+												DRGlyphFontCharacterOffsetY: [self valueOfProperty:@"yoffset" fromLine:line] ?: [NSNull null],
+												DRGlyphFontCharacterAdvanceX: [self valueOfProperty:@"xadvance" fromLine:line] ?: [NSNull null],
 												};
 					}
 				}
@@ -111,6 +141,20 @@ static NSString * const DRGlyphFontCharacterHeight = @"DRGlyphFontCharacterHeigh
 		_characters = [NSDictionary dictionaryWithDictionary:characters];
 	}
 	return _characters;
+}
+
+- (NSInteger)lineHeight
+{
+	if (!_lineHeight) {
+		NSArray *lines = [self.fontDescription componentsSeparatedByCharactersInSet:[NSCharacterSet newlineCharacterSet]];
+		[lines enumerateObjectsUsingBlock:^(NSString *line, NSUInteger idx, BOOL *stop) {
+			if ([line hasPrefix:@"common "]) {
+				_lineHeight = [[self valueOfProperty:@"lineHeight" fromLine:line] integerValue];
+				*stop = YES;
+			}
+		}];
+	}
+	return _lineHeight;
 }
 
 #pragma mark - Parser methods

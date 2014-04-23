@@ -7,7 +7,11 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "DRGlyphFont.h"
 
 @interface DRGlyphLabel : UIView
+
+@property (nonatomic, strong) DRGlyphFont *font;
+@property (nonatomic, strong) NSString *text;
 
 @end
