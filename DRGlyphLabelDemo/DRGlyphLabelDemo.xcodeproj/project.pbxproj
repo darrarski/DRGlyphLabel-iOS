@@ -16,6 +16,8 @@
 		3195B13A1907C530008D37D9 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3195B1381907C530008D37D9 /* Main.storyboard */; };
 		3195B13D1907C530008D37D9 /* DRViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3195B13C1907C530008D37D9 /* DRViewController.m */; };
 		3195B13F1907C530008D37D9 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3195B13E1907C530008D37D9 /* Images.xcassets */; };
+		3195B15E1907C7A4008D37D9 /* DRGlyphLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = 3195B15D1907C7A4008D37D9 /* DRGlyphLabel.m */; };
+		3195B1611907CD6F008D37D9 /* DRGlyphFont.m in Sources */ = {isa = PBXBuildFile; fileRef = 3195B1601907CD6F008D37D9 /* DRGlyphFont.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -34,6 +36,10 @@
 		3195B13C1907C530008D37D9 /* DRViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DRViewController.m; sourceTree = "<group>"; };
 		3195B13E1907C530008D37D9 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		3195B1451907C530008D37D9 /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
+		3195B15C1907C7A4008D37D9 /* DRGlyphLabel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DRGlyphLabel.h; sourceTree = "<group>"; };
+		3195B15D1907C7A4008D37D9 /* DRGlyphLabel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DRGlyphLabel.m; sourceTree = "<group>"; };
+		3195B15F1907CD6F008D37D9 /* DRGlyphFont.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DRGlyphFont.h; sourceTree = "<group>"; };
+		3195B1601907CD6F008D37D9 /* DRGlyphFont.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DRGlyphFont.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -53,6 +59,7 @@
 		3195B11A1907C530008D37D9 = {
 			isa = PBXGroup;
 			children = (
+				3195B15B1907C775008D37D9 /* DRGlyphLabel */,
 				3195B12C1907C530008D37D9 /* DRGlyphLabelDemo */,
 				3195B1251907C530008D37D9 /* Frameworks */,
 				3195B1241907C530008D37D9 /* Products */,
@@ -101,6 +108,18 @@
 				3195B1321907C530008D37D9 /* main.m */,
 			);
 			path = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		3195B15B1907C775008D37D9 /* DRGlyphLabel */ = {
+			isa = PBXGroup;
+			children = (
+				3195B15F1907CD6F008D37D9 /* DRGlyphFont.h */,
+				3195B1601907CD6F008D37D9 /* DRGlyphFont.m */,
+				3195B15C1907C7A4008D37D9 /* DRGlyphLabel.h */,
+				3195B15D1907C7A4008D37D9 /* DRGlyphLabel.m */,
+			);
+			name = DRGlyphLabel;
+			path = ../DRGlyphLabel;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -172,6 +191,8 @@
 				3195B1371907C530008D37D9 /* DRAppDelegate.m in Sources */,
 				3195B13D1907C530008D37D9 /* DRViewController.m in Sources */,
 				3195B1331907C530008D37D9 /* main.m in Sources */,
+				3195B15E1907C7A4008D37D9 /* DRGlyphLabel.m in Sources */,
+				3195B1611907CD6F008D37D9 /* DRGlyphFont.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
