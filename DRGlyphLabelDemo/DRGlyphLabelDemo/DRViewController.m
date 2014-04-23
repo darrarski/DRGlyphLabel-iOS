@@ -26,6 +26,7 @@
 	
 	self.label = [[DRGlyphLabel alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height)];
 	self.label.font = [[DRGlyphFont alloc] initWithName:@"font1"];
+	self.label.backgroundColor = [UIColor colorWithRed:1.000 green:1.000 blue:0.000 alpha:0.300];
 	[self.view addSubview:self.label];
 	[self updateCounterLabel];
 	
@@ -34,7 +35,6 @@
                                                 selector:@selector(timerTick)
                                                 userInfo:nil
                                                  repeats:YES];
-	
 }
 
 - (void)timerTick
