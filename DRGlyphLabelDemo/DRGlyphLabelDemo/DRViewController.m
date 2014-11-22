@@ -47,7 +47,7 @@
 
 - (void)updateCounterLabel
 {
-	self.label.text = [NSString stringWithFormat:@"%d", self.counter];
+	self.label.text = [NSString stringWithFormat:@"%lu", (unsigned long)self.counter];
 	[self.label sizeToFit];
 	self.label.center = self.view.center;
 }
