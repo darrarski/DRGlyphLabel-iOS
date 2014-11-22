@@ -47,7 +47,7 @@
     CGPoint pos = CGPointZero;
     
     if (!_fontSize) {
-        _fontSize = 2.5;
+        _fontSize = [UIScreen mainScreen].scale;
     }
     
     CGFloat scaleFactor = _fontSize;
