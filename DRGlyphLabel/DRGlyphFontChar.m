@@ -11,6 +11,7 @@
 @interface DRGlyphFontChar ()
 
 @property (nonatomic, readonly) CGRect rect;
+@property (nonatomic, strong) SKTexture *pageTexture;
 
 @end
 
@@ -25,6 +26,14 @@
 											orientation:pageImage.imageOrientation];
     CGImageRelease(pageImageRef);
     return characterImage;
+}
+
+- (SKTexture *)texture
+{
+    _pageTexture = [SKTexture textureWithImageNamed:self.filename];
+    SKTexture *characterTexture = [SKTexture textureWithRect:self.rect inTexture:_pageTexture];
+    
+    return characterTexture;
 }
 
 - (CGRect)rect

@@ -45,7 +45,12 @@
     unichar lastCharId = 0;
 	CGSize size = CGSizeZero;
     CGPoint pos = CGPointZero;
-    CGFloat scaleFactor = [UIScreen mainScreen].scale;
+    
+    if (!_fontSize) {
+        _fontSize = 2.5;
+    }
+    
+    CGFloat scaleFactor = _fontSize;
 	
 	[self.subviews enumerateObjectsUsingBlock:^(UIView *subview, NSUInteger idx, BOOL *stop) {
 		[subview removeFromSuperview];

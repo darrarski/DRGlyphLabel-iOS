@@ -7,6 +7,8 @@
 //
 
 #import <Foundation/Foundation.h>
+#import <UIKit/UIKit.h>
+#import <SpriteKit/SpriteKit.h>
 
 /**
  *  DRGlyphFontChar - bitmap font character representation
@@ -62,5 +64,10 @@
  *  Image representation of character
  */
 @property (nonatomic, readonly) UIImage *image;
+
+/**
+ *  Image representation of character
+ */
+@property (nonatomic, readonly) SKTexture *texture;
 
 @end
