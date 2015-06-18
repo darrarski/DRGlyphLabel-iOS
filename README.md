@@ -12,15 +12,17 @@ Tested under iOS 7. If you are looking for specific version of the library, chec
 
 You can install the library using CocoaPods. To do so, you will need to add one of the following lines to your Podfile:
 
-For most recent or development version:
+For stable release (recommended):
 
-	pod 'DRGlyphLabel', :git => 'https://github.com/darrarski/DRGlyphLabel-iOS'
+    pod 'DRGlyphLabel', '~> 0.1.0'
 
-For specific version:
+Which creates dependency for version `>= 0.1.0` and `< 0.2`
 
-	pod 'DRGlyphLabel', :git => 'https://github.com/darrarski/DRGlyphLabel-iOS', :branch => 'VERSION_BRANCH'
+For most recent or exact development version (not recommended on production):
 
-Where `VERSION_BRANCH` you should put the branch name for given version (ex. `0.1`). It is recommended to set version branch explicity, as backward compatibility between those branches is not warranted. Master branch always contains the most recent version.
+    pod 'DRGlyphLabel', :git => 'https://github.com/darrarski/DRGlyphLabel-iOS.git', :tag => 'VERSION_TAG'
+
+Where `VERSION_TAG` you should put tag name for given version (ex. "v0.1.0"). It is recommended to set version explicity instead of using most recent version, as backward compatibility is not warranted.
 
 ## Usage
 
