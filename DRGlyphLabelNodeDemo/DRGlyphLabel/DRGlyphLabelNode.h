@@ -1,19 +1,20 @@
 //
-//  DRGlyphLabel.h
-//  DRGlyphLabel
+//  DRGlyphLabelNode.h
+//  foggyhorse
 //
-//  Created by Dariusz Rybicki on 23.04.2014.
-//  Copyright (c) 2014 Darrarski. All rights reserved.
+//  Created by Alfred on 14/11/23.
+//  Copyright (c) 2014年 Mogo HackSpace. All rights reserved.
 //
 
 #import <UIKit/UIKit.h>
+#import <SpriteKit/SpriteKit.h>
 
 @class DRGlyphFont;
 
 /**
  *  DRGlyphLabel - text label with bitmap font
  */
-@interface DRGlyphLabel : UIView
+@interface DRGlyphLabelNode : SKSpriteNode
 
 /**
  *  Font used to render text
@@ -31,3 +32,4 @@
 @property (nonatomic) CGFloat fontSize;
 
 @end
+
